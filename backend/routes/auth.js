@@ -26,7 +26,7 @@ router.post(
     }
 
     //check if user already exists
-    
+    let user = await User.findOne({ email: req.body.email });
 
     if (user) {
       return res
