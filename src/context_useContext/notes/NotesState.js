@@ -10,7 +10,7 @@ const NotesState = ({ props, children }) => {
     console.log("get");
     try {
       const response = await fetch(
-        "http://localhost:5000/api/notes/fetchallnotes",
+        "https://inotebook-8iwp.onrender.com/api/notes/fetchallnotes",
         {
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -34,7 +34,7 @@ const NotesState = ({ props, children }) => {
 
   const addNote = async (title, description, tag) => {
     try {
-      const response = await fetch("http://localhost:5000/api/notes/addnote", {
+      const response = await fetch("https://inotebook-8iwp.onrender.com/api/notes/addnote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const NotesState = ({ props, children }) => {
   const deleteNote = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/notes/deletenote/${id}`,
+        `https://inotebook-8iwp.onrender.com/api/notes/deletenote/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -75,7 +75,7 @@ const NotesState = ({ props, children }) => {
   const editNote = async (title, description, tag, id) => {
     console.log("hi");
     const response = await fetch(
-      `http://localhost:5000/api/notes/updatenote/${id}`,
+      `https://inotebook-8iwp.onrender.com/api/notes/updatenote/${id}`,
       {
         method: "PUT",
         headers: {
@@ -94,7 +94,7 @@ const NotesState = ({ props, children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("https://inotebook-8iwp.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -114,7 +114,7 @@ const NotesState = ({ props, children }) => {
   const signup = async (name, email, password) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/createuser",
+        "https://inotebook-8iwp.onrender.com/api/auth/createuser",
         {
           method: "POST",
           headers: {
