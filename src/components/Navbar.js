@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 export default function Navbar(prop) {
   const navigate = useNavigate();
   const onClick = () => {
-    localStorage.removeItem("token")
-    navigate('/login')
+    localStorage.removeItem("token");
+    navigate("/login");
   };
   let location = useLocation();
   useEffect(() => {
@@ -15,70 +15,103 @@ export default function Navbar(prop) {
   }, [location]); //demonstration of useLocation
   return (
     <>
-      <div className={`nav ${prop.mode}`}>
-        <h3>
+      <div className="navBar text-black flex justify-between items-center p-2 bg-green-400">
+        <h3 className="p-2 text-xl font-bold">
           <NavLink to={"/"}>{prop.name}</NavLink>
         </h3>
-        <ul className="list">
-          <li>
-            {/* two ways of accessing location , 1 - is NavLink with isActive and isPending ,
+        <nav>
+          <ul className="flex justify-center items-center">
+            <li className="p-2">
+              {/* two ways of accessing location , 1 - is NavLink with isActive and isPending ,
             2 - is using useLocation hook*/}
-            <NavLink
-              to={"/"}
-              style={({ isActive }) => {
-                return {
-                  color: isActive ? "white" : "black",
-                };
-              }}
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={"/about"}
-              style={{
-                color: location.pathname === "/about" ? "white" : "black",
-              }}
-            >
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/"}>Contact</NavLink>
-          </li>
-          {!localStorage.getItem("token") && (
-            <li>
               <NavLink
-                to={"/login"}
-                style={{
-                  color: location.pathname === "/login" ? "white" : "black",
+                to={"/"}
+                style={({ isActive }) => {
+                  return {
+                    visibility: isActive ? "visible" : "",
+                    pointerEvents: isActive ? "none" : "",
+                    color: isActive ? "white" : "",
+                  };
                 }}
+                className="NavItem flex justify-center items-center border-2 border-transparent  hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl "
               >
-                Login
+                <span className="material-symbols-outlined ">home</span>
+                <span className="invisible NavItemSpan transition-all">
+                  Home
+                </span>
               </NavLink>
             </li>
-          )}
-          {!localStorage.getItem("token") && (
-            <li>
+            <li className="p-2">
               <NavLink
-                to={"/signup"}
+                to={"/about"}
                 style={{
-                  color: location.pathname === "/signup" ? "white" : "black",
+                  pointerEvents: location.pathname === "/about" ? "none" : "",
+                  color: location.pathname === "/about" ? "white" : "",
                 }}
+                className="NavItem flex justify-center items-center border-2 border-transparent hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl"
               >
-                Signup
+                <span className="material-symbols-outlined">info</span>
+                <span className="invisible NavItemSpan">About</span>
               </NavLink>
             </li>
-          )}
-          {localStorage.getItem("token") && (
-            <li>
-              <button type="button" onClick={onClick}>
-                Logout
-              </button>
+            <li className="p-2">
+              <NavLink
+                to={"/"}
+                className="NavItem flex justify-center items-center border-2 border-transparent hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl"
+              >
+                <span className="material-symbols-outlined">
+                  contact_support
+                </span>
+                <span className="invisible NavItemSpan">Contact</span>
+              </NavLink>
             </li>
-          )}
-        </ul>
+            {!localStorage.getItem("token") && (
+              <li className="p-2">
+                <NavLink
+                  to={"/login"}
+                  style={{
+                    pointerEvents: location.pathname === "/login" ? "none" : "",
+                    color: location.pathname === "/login" ? "white" : "",
+                  }}
+                  className="NavItem flex justify-center items-center border-2 border-transparent hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl"
+                >
+                  <span className="material-symbols-outlined">login</span>
+                  <span className="invisible NavItemSpan">Login</span>
+                </NavLink>
+              </li>
+            )}
+            {!localStorage.getItem("token") && (
+              <li className="p-2">
+                <NavLink
+                  to={"/signup"}
+                  style={{
+                    pointerEvents:
+                      location.pathname === "/signup" ? "none" : "",
+                    color: location.pathname === "/signup" ? "white" : "",
+                  }}
+                  className="NavItem flex justify-center items-center border-2 border-transparent hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl"
+                >
+                  <span className="material-symbols-outlined">
+                    app_registration
+                  </span>
+                  <span className="invisible NavItemSpan">Signup</span>
+                </NavLink>
+              </li>
+            )}
+            {localStorage.getItem("token") && (
+              <li className="p-2">
+                <button
+                  type="button"
+                  onClick={onClick}
+                  className="NavItem flex justify-center items-center border-2 border-transparent hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded-3xl"
+                >
+                  <span className="material-symbols-outlined">logout</span>
+                  <span className="invisible NavItemSpan">Logout</span>
+                </button>
+              </li>
+            )}
+          </ul>
+        </nav>
       </div>
     </>
   );

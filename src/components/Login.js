@@ -15,7 +15,7 @@ export default function Login() {
     setLuser({ ...luser, [e.target.name]: e.target.value });
   };
   return (
-    <form className="container my-5" onSubmit={onSubmit}>
+    <form className="container my-5 p-16" onSubmit={onSubmit}>
       <div className="mb-3">
         <label htmlFor="exampleInputEmail1" className="form-label">
           Email address
@@ -46,7 +46,7 @@ export default function Login() {
           onChange={onChange}
         />
       </div>
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-success text-black hover:!text-white">
         Submit
       </button>
     </form>
