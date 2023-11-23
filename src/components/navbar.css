@@ -48,3 +48,7 @@
 i{
   cursor: pointer;
 }
+
+.NavItem:hover .NavItemSpan{
+  visibility: visible !important;
+}

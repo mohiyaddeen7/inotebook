@@ -5,12 +5,12 @@ import Addnote from "./Addnote";
 export default function Home() {
   return (
     <>
-      <div className="container my-4">
-        <div className="container my-4">
+      <div className="">
+        <div className="">
           <Addnote />
         </div>
-        <div className="container my-4">
-          <h2>Your Notes</h2>
+        <div className="p-12">
+          <h2 className="text-2xl p-4 font-bold">Your Notes</h2>
           <Notes />
         </div>
       </div>

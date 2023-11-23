@@ -22,7 +22,7 @@ export default function Signup() {
     setSuser({ ...suser, [e.target.name]: e.target.value });
   };
   return (
-    <form className="container my-5" onSubmit={onSubmit}>
+    <form className="container my-5 p-16" onSubmit={onSubmit}>
       <div className="mb-3">
         <label htmlFor="exampleInputPassword1" className="form-label">
           Full Name
@@ -80,7 +80,7 @@ export default function Signup() {
           onChange={onChange}
         />
       </div>
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-success text-black hover:!text-white">
         Submit
       </button>
     </form>

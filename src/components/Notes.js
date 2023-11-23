@@ -25,7 +25,7 @@ export default function Notes() {
   return (
     <>
       <ModalEdit />
-      <div className="row row-cols-1 row-cols-md-3 g-4 my-2">
+      <div className="row row-cols-1 row-cols-md-3 g-4 my-2 p-4">
         {notes.map((note) => {
           return (
             <div className="col" key={note._id}>

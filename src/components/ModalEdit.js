@@ -113,14 +113,14 @@ export default function ModalEdit() {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary text-black hover:!text-white"
                   data-bs-dismiss="modal"
                 >
                   Close
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-success"
+                  className="btn btn-success text-black hover:!text-white"
                   data-bs-dismiss="modal"
                 >
                   Save

@@ -12,10 +12,9 @@ function App() {
   // const navigate = useNavigate();
   return (
     <Router>
-      <NotesState >
+      <NotesState>
         <div className="App">
           <Navbar name={"inotebook"} />
-          <h2>Ladies and Gentelmen, I present to you inotebook</h2>
           <Routes>
             <Route
               exact
