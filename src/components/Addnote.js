@@ -29,7 +29,7 @@ export default function Addnote() {
             <label className="self-start py-2">Title</label>
             <input
               type="text"
-              className="p-2"
+              className="p-2 rounded-md"
               placeholder="Required title"
               id=""
               value={note.title}
@@ -41,7 +41,7 @@ export default function Addnote() {
           <div className="p-2 flex justify-center flex-col items-center">
             <label className="self-start py-2">Description</label>
             <textarea
-              className="p-2"
+              className="p-2 rounded-md"
               id="validationTextarea"
               placeholder="Required example textarea"
               value={note.description}
@@ -56,7 +56,7 @@ export default function Addnote() {
             <label className="self-start py-2">Tag</label>
             <input
               type="text"
-              className=" p-2"
+              className=" p-2 rounded-md"
               id="tag"
               value={note.tag}
               placeholder="General"
