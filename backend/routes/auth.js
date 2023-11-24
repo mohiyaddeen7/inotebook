@@ -21,18 +21,16 @@ router.post(
   async (req, res) => {
     try {
       const result = validationResult(req);
-
+    
       if (!result.isEmpty()) {
-        return res.send({ error: result.array() });
+        res.status(500).send("some error occured");
       }
 
       //check if user already exists
       let user = await User.findOne({ email: req.body.email });
 
       if (user) {
-        return res
-          .status(400)
-          .json({ error: "A user account with this email id already exists" });
+        res.status(409).json({ error: "A user account with this email id already exists" });
       }
 
       //genrating salt to use it with hash function for more secured hashed password
@@ -55,7 +53,6 @@ router.post(
           res.json({ success: true, jwt: jwt_create_Token });
         })
         .catch((err) => {
-          console.log(`error in User creation : ${err.message}`);
           res.status(500).send("some error occured");
         });
     } catch (error) {
@@ -137,13 +134,10 @@ router.post(
           res.json({ success: true, jwt: jwt_auth_Token });
         }
       } catch (error) {
-        console.log(`error in login:  ${error.message}`);
         res.status(500).send("some error occured"); //dont
       }
     } catch (error) {
-
-      res.status(500).send("some error occurred")
-
+      res.status(500).send("some error occurred");
     }
   }
 );
@@ -156,7 +150,7 @@ router.post("/getuser", fetchuser, async (req, res) => {
     let user = await User.findById(userID).select("-password");
     res.send(user);
   } catch (error) {
-    res.send(" internal server error");
+    res.status(500).send("some error occurred");
   }
 });
 

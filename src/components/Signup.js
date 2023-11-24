@@ -1,5 +1,5 @@
 import notesContext from "../context_useContext/notes/notesContext";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 export default function Signup() {
   const { signup } = useContext(notesContext);
@@ -13,9 +13,12 @@ export default function Signup() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (suser.cpassword === suser.password)
+    if (suser.cpassword === suser.password) {
       signup(suser.fname, suser.email, suser.password);
-    setSuser({ fname: "", email: "", password: "", cpassword: "" });
+      setSuser({ fname: "", email: "", password: "", cpassword: "" });
+    } else {
+      alert("Passwords do not match")
+    }
   };
 
   const onChange = (e) => {
@@ -34,6 +37,8 @@ export default function Signup() {
           value={suser.fname}
           name="fname"
           onChange={onChange}
+          pattern="[A-Za-z]{1,100}"
+          title="Give valid name"
         />
       </div>
       <div className="mb-3">
@@ -61,7 +66,7 @@ export default function Signup() {
         <input
           type="password"
           className="form-control"
-          id="exampleInputPassword1"
+          id="password"
           value={suser.password}
           name="password"
           onChange={onChange}
@@ -74,7 +79,7 @@ export default function Signup() {
         <input
           type="password"
           className="form-control"
-          id="exampleInputCpassword1"
+          id="cpassword"
           value={suser.cpassword}
           name="cpassword"
           onChange={onChange}
