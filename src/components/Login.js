@@ -1,5 +1,5 @@
 import notesContext from "../context_useContext/notes/notesContext";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 export default function Login() {
   const { login } = useContext(notesContext);
@@ -8,7 +8,7 @@ export default function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
     login(luser.email, luser.password);
-    setLuser({email: "", password: "" })
+    setLuser({ email: "", password: "" });
   };
 
   const onChange = (e) => {
@@ -46,7 +46,10 @@ export default function Login() {
           onChange={onChange}
         />
       </div>
-      <button type="submit" className="btn btn-success text-black hover:!text-white">
+      <button
+        type="submit"
+        className="btn btn-success text-black hover:!text-white"
+      >
         Submit
       </button>
     </form>

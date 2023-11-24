@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NotesContext from "./notesContext";
 import { useNavigate } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const NotesState = ({ props, children }) => {
   const notesInitial = [];
@@ -10,7 +11,7 @@ const NotesState = ({ props, children }) => {
     console.log("get");
     try {
       const response = await fetch(
-        "https://inotebook-8iwp.onrender.com/api/notes/fetchallnotes",
+        "http://localhost:5000/api/notes/fetchallnotes",
         {
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -22,9 +23,7 @@ const NotesState = ({ props, children }) => {
         }
       );
       if (response.ok) {
-        console.log("hiasdasdas");
-        const data = await response.json
-        (); // parses JSON response into native JavaScript objects
+        const data = await response.json(); // parses JSON response into native JavaScript objects
         setNotes(data);
       }
     } catch (error) {
@@ -34,7 +33,7 @@ const NotesState = ({ props, children }) => {
 
   const addNote = async (title, description, tag) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/notes/addnote", {
+      const response = await fetch("http://localhost:5000/api/notes/addnote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +52,7 @@ const NotesState = ({ props, children }) => {
   const deleteNote = async (id) => {
     try {
       const response = await fetch(
-        `https://inotebook-8iwp.onrender.com/api/notes/deletenote/${id}`,
+        `http://localhost:5000/api/notes/deletenote/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -73,9 +72,8 @@ const NotesState = ({ props, children }) => {
   };
 
   const editNote = async (title, description, tag, id) => {
-    console.log("hi");
     const response = await fetch(
-      `https://inotebook-8iwp.onrender.com/api/notes/updatenote/${id}`,
+      `http://localhost:5000/api/notes/updatenote/${id}`,
       {
         method: "PUT",
         headers: {
@@ -88,13 +86,37 @@ const NotesState = ({ props, children }) => {
     const result = await response.json();
     if (result) {
       getNotes();
-      console.log("success");
+    }
+  };
+
+  const verify = async (jwt_token, email) => {
+    try {
+      let templateParams = {
+        message: `http://localhost:5000/api/auth/verify/${jwt_token}`,
+        recepient: email,
+      };
+
+      emailjs
+        .send(
+          "service_2bfd1ye",
+          "template_pevkjwr",
+          templateParams,
+          "f6uNhSkrXxiEaOXCH"
+        )
+        .then(() => {
+          console.log("mail sent successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log("Error occurred while sending mail");
     }
   };
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -103,8 +125,15 @@ const NotesState = ({ props, children }) => {
       });
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("token", result.jwt);
-        navigate("/");
+        console.log("mohiyaddeen raza");
+
+        console.log(result.e_verification);
+        if (result.e_verification === false) {
+          navigate("/Verification_needed");
+        } else {
+          localStorage.setItem("token", result.jwt);
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error(error);
@@ -114,7 +143,7 @@ const NotesState = ({ props, children }) => {
   const signup = async (name, email, password) => {
     try {
       const response = await fetch(
-        "https://inotebook-8iwp.onrender.com/api/auth/createuser",
+        "http://localhost:5000/api/auth/createuser",
         {
           method: "POST",
           headers: {
@@ -126,8 +155,8 @@ const NotesState = ({ props, children }) => {
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("token", result.jwt);
-        navigate("/");
+        verify(result.jwt, email);
+        navigate("/login");
       }
     } catch (error) {
       console.error(error);

@@ -10,6 +10,7 @@ export default function Navbar(prop) {
     navigate("/login");
   };
   let location = useLocation();
+
   useEffect(() => {
     console.log(location);
   }, [location]); //demonstration of useLocation

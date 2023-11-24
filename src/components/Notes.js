@@ -1,23 +1,18 @@
 import React, { useContext, useEffect } from "react";
 import notesContext from "../context_useContext/notes/notesContext";
 import ModalEdit from "./ModalEdit";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Notes() {
-  const { notes, deleteNote, getNotes, editNote } = useContext(notesContext);
+  const { notes, deleteNote, getNotes } = useContext(notesContext);
   const handleClick = (id) => {
     deleteNote(id);
   };
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("hello")
     if (!localStorage.getItem("token")) {
-      console.log("hi")
-      console.log(localStorage.getItem("token"))
       navigate("/login");
-    }
-    else{
-      console.log(localStorage.getItem("token"))
+    } else {
       getNotes();
     }
   }, []);

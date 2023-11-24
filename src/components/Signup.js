@@ -10,11 +10,11 @@ export default function Signup() {
     password: "",
     cpassword: "",
   });
-  
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if(suser.cpassword===suser.password)
-    signup(suser.fname,suser.email, suser.password);
+    if (suser.cpassword === suser.password)
+      signup(suser.fname, suser.email, suser.password);
     setSuser({ fname: "", email: "", password: "", cpassword: "" });
   };
 
@@ -80,7 +80,10 @@ export default function Signup() {
           onChange={onChange}
         />
       </div>
-      <button type="submit" className="btn btn-success text-black hover:!text-white">
+      <button
+        type="submit"
+        className="btn btn-success text-black hover:!text-white"
+      >
         Submit
       </button>
     </form>
