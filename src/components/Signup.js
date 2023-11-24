@@ -37,8 +37,8 @@ export default function Signup() {
           value={suser.fname}
           name="fname"
           onChange={onChange}
-          pattern="[A-Za-z]{1,100}"
-          title="Give valid name"
+          pattern="[A-Za-z]{1,}"
+          title="Name should only contain letters"
         />
       </div>
       <div className="mb-3">
@@ -70,6 +70,8 @@ export default function Signup() {
           value={suser.password}
           name="password"
           onChange={onChange}
+          minlength="5"
+          title="Must be atleast 5 characters"
         />
       </div>
       <div className="mb-3">
