@@ -6,7 +6,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NotesState from "./context_useContext/notes/NotesState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Verification_needed from "./components/Verification_needed";
 // import { useNavigate } from "react-router-dom";
+
 
 function App() {
   // const navigate = useNavigate();
@@ -28,6 +30,7 @@ function App() {
             <Route exact path="/about" element={<About />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
+            <Route exact path="/verification_needed" element={<Verification_needed />} />
           </Routes>
         </div>
       </NotesState>

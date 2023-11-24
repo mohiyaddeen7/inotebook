@@ -19,46 +19,80 @@ router.post(
     }),
   ],
   async (req, res) => {
-    const result = validationResult(req);
+    try {
+      const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-      return res.send({ error: result.array() });
-    }
+      if (!result.isEmpty()) {
+        return res.send({ error: result.array() });
+      }
 
-    //check if user already exists
-    let user = await User.findOne({ email: req.body.email });
+      //check if user already exists
+      let user = await User.findOne({ email: req.body.email });
 
-    if (user) {
-      return res
-        .status(400)
-        .json({ error: "A user account with this email id already exists" });
-    }
+      if (user) {
+        return res
+          .status(400)
+          .json({ error: "A user account with this email id already exists" });
+      }
 
-    //genrating salt to use it with hash function for more secured hashed password
-    const salt = await bcrypt.genSalt(10);
-    //hashing function
-    const hashedPassword = await bcrypt.hash(`${req.body.password}`, salt);
+      //genrating salt to use it with hash function for more secured hashed password
+      const salt = await bcrypt.genSalt(10);
+      //hashing function
+      const hashedPassword = await bcrypt.hash(`${req.body.password}`, salt);
 
-    user = User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword,
-    })
-      .then((user) => {
-        const data = {
-          user: {
-            id: user.id,
-          },
-        };
-        const jwt_create_Token = jwt.sign(data, JWT_SECRET);
-        res.json({success:true,jwt:jwt_create_Token});
+      user = User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: hashedPassword,
       })
-      .catch((err) => {
-        console.log(`error in User creation : ${err.message}`);
-        res.status(500).send("some error occured");
-      });
+        .then((user) => {
+          const data = {
+            user: {
+              id: user.id,
+            },
+          };
+          const jwt_create_Token = jwt.sign(data, JWT_SECRET);
+          res.json({ success: true, jwt: jwt_create_Token });
+        })
+        .catch((err) => {
+          console.log(`error in User creation : ${err.message}`);
+          res.status(500).send("some error occured");
+        });
+    } catch (error) {
+      res.status(500).send("some error occured");
+    }
   }
 );
+
+//Route 1 : creating a user using : POST "/api/auth/createuser" no login required
+router.get("/verify/:AuthToken", async (req, res) => {
+  try {
+    let jwt_token = req.params.AuthToken;
+    if (!jwt) {
+      res.status(500).send("some error occured");
+    }
+
+    jwt.verify(jwt_token, JWT_SECRET, async (error, payload) => {
+      if (error) {
+        res.status(500).send("some error occured");
+      } else {
+        let user = await User.findById(payload.user.id);
+        user.verified = true;
+
+        user
+          .save()
+          .then(() => {
+            res.json("Successfully verified");
+          })
+          .catch(() => {
+            res.status(500).send("some error occured");
+          });
+      }
+    });
+  } catch (error) {
+    res.status(500).send("some error occured");
+  }
+});
 
 //Route 2 : authorizing a user using : POST "/api/auth/login" no login required
 router.post(
@@ -68,39 +102,48 @@ router.post(
     body("password", "password cannot be empty").exists(),
   ],
   async (req, res) => {
-    const result = validationResult(req);
-    if (!result) {
-      return res.json({ error: result.array() });
-    }
-
-    const { email, password } = req.body;
-
     try {
-      let user = await User.findOne({ email });//user exisrts\
-      if (!user) {
-        return res
-          .status(400)
-          .json({ error: "Please Enter correct credentials" }); //dont write attacker understanding prompts
+      const result = validationResult(req);
+      if (!result) {
+        return res.json({ error: result.array() });
       }
 
-      const comparePassword = await bcrypt.compare(password, user.password);
-      if (!comparePassword) {
-        return res
-          .status(400)
-          .json({ error: "Please Enter correct credentials" }); //dont write attacker understanding prompts
+      const { email, password } = req.body;
+
+      try {
+        let user = await User.findOne({ email }); //user exists
+        if (!user) {
+          return res
+            .status(400)
+            .json({ error: "Please Enter correct credentials" }); //dont write attacker understanding prompts
+        }
+
+        const comparePassword = await bcrypt.compare(password, user.password);
+        if (!comparePassword) {
+          return res
+            .status(400)
+            .json({ error: "Please Enter correct credentials" }); //dont write attacker understanding prompts
+        }
+
+        if (!user.verified) {
+          res.json({ e_verification: false });
+        } else {
+          const payLoad = {
+            user: {
+              id: user.id,
+            },
+          };
+          const jwt_auth_Token = jwt.sign(payLoad, JWT_SECRET);
+          res.json({ success: true, jwt: jwt_auth_Token });
+        }
+      } catch (error) {
+        console.log(`error in login:  ${error.message}`);
+        res.status(500).send("some error occured"); //dont
       }
-
-      const payLoad = {
-        user: {
-          id: user.id,
-        },
-      };
-
-      const jwt_auth_Token = jwt.sign(payLoad, JWT_SECRET);
-      res.json({success:true, jwt:jwt_auth_Token});
     } catch (error) {
-      console.log(`error in login:  ${error.message}`);
-      res.status(500).send("some error occured"); //dont
+
+      res.status(500).send("some error occurred")
+
     }
   }
 );
@@ -111,9 +154,9 @@ router.post("/getuser", fetchuser, async (req, res) => {
   try {
     const userID = await req.user.id;
     let user = await User.findById(userID).select("-password");
-    res.send(user)
+    res.send(user);
   } catch (error) {
-    res.send(" internal server error")
+    res.send(" internal server error");
   }
 });
 

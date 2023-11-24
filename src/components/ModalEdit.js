@@ -40,7 +40,6 @@ export default function ModalEdit() {
   }, [notes]);
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
     const { title, description, tag, id } = modalData;
     editNote(title, description, tag, id);
