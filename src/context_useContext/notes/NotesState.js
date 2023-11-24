@@ -3,7 +3,7 @@ import NotesContext from "./notesContext";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
-const NotesState = ({ props, children }) => {
+const NotesState = ({ children }) => {
   const notesInitial = [];
   const navigate = useNavigate();
 
@@ -135,8 +135,11 @@ const NotesState = ({ props, children }) => {
           navigate("/");
         }
       }
+      else{
+        alert("Enter Correct Credentials")
+      }
     } catch (error) {
-      console.error(error);
+      alert("Some error occurred")
     }
   };
 
@@ -158,8 +161,11 @@ const NotesState = ({ props, children }) => {
         verify(result.jwt, email);
         navigate("/login");
       }
+      else{
+        alert("Enter Correct Credentials")
+      }
     } catch (error) {
-      console.error(error);
+      alert("Some error occurred")
     }
   };
 
