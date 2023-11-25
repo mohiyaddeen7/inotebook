@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User.js");
-const { body, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator"); //for simple initial  validation
 const bcrypt = require("bcryptjs"); //to hash password
 const jwt = require("jsonwebtoken"); // to create secure tokens for users
 
 const JWT_SECRET = "strongKeyPassword_jwt";
-const fetchuser = require("../middleware/fetchuser.js");
+const fetchuser = require("../middleware/fetchuser.js"); //middleware for protected routes
 
 //Route 1 : creating a user using : POST "/api/auth/createuser" no login required
 router.post(
@@ -38,6 +38,8 @@ router.post(
       //hashing function
       const hashedPassword = await bcrypt.hash(`${req.body.password}`, salt);
 
+      
+
       user = User.create({
         name: req.body.name,
         email: req.body.email,
@@ -52,7 +54,7 @@ router.post(
           const jwt_create_Token = jwt.sign(data, JWT_SECRET);
           res.json({ success: true, jwt: jwt_create_Token });
         })
-        .catch((err) => {
+        .catch(() => {
           res.status(500).send("some error occured");
         });
     } catch (error) {
@@ -61,21 +63,27 @@ router.post(
   }
 );
 
-//Route 1 : creating a user using : POST "/api/auth/createuser" no login required
+
+
+//Route 2 : Email verification route
 router.get("/verify/:AuthToken", async (req, res) => {
   try {
+
+    //retrieving the auth token from params 
     let jwt_token = req.params.AuthToken;
+
+    //if the jwt is not present
     if (!jwt) {
       res.status(500).send("some error occured");
     }
 
+    //jwt verification
     jwt.verify(jwt_token, JWT_SECRET, async (error, payload) => {
       if (error) {
         res.status(500).send("some error occured");
       } else {
         let user = await User.findById(payload.user.id);
         user.verified = true;
-
         user
           .save()
           .then(() => {
@@ -91,7 +99,7 @@ router.get("/verify/:AuthToken", async (req, res) => {
   }
 });
 
-//Route 2 : authorizing a user using : POST "/api/auth/login" no login required
+//Route 3 : authorizing a user using : POST "/api/auth/login" no login required
 router.post(
   "/login",
   [
@@ -121,20 +129,20 @@ router.post(
             .status(400)
             .json({ error: "Please Enter correct credentials" }); //dont write attacker understanding prompts
         }
+        const payLoad = {
+          user: {
+            id: user.id,
+          },
+        };
+        const jwt_auth_Token = jwt.sign(payLoad, JWT_SECRET);
 
         if (!user.verified) {
-          res.json({ e_verification: false });
+          res.json({ e_verification: false,jwt: jwt_auth_Token });
         } else {
-          const payLoad = {
-            user: {
-              id: user.id,
-            },
-          };
-          const jwt_auth_Token = jwt.sign(payLoad, JWT_SECRET);
           res.json({ success: true, jwt: jwt_auth_Token });
         }
       } catch (error) {
-        res.status(500).send("some error occured"); //dont
+        res.status(500).send("some error occured"); 
       }
     } catch (error) {
       res.status(500).send("some error occurred");

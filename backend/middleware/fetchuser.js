@@ -1,3 +1,5 @@
+//middleware required for all the protected routes
+
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = "strongKeyPassword_jwt";
 

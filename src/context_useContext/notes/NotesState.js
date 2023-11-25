@@ -11,7 +11,7 @@ const NotesState = ({ children }) => {
     console.log("get");
     try {
       const response = await fetch(
-        "https://inotebook-8iwp.onrender.com/api/notes/fetchallnotes",
+        "http://localhost:5000/api/notes/fetchallnotes",
         {
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           headers: {
@@ -33,7 +33,7 @@ const NotesState = ({ children }) => {
 
   const addNote = async (title, description, tag) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/notes/addnote", {
+      const response = await fetch("http://localhost:5000/api/notes/addnote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const NotesState = ({ children }) => {
   const deleteNote = async (id) => {
     try {
       const response = await fetch(
-        `https://inotebook-8iwp.onrender.com/api/notes/deletenote/${id}`,
+        `http://localhost:5000/api/notes/deletenote/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -73,7 +73,7 @@ const NotesState = ({ children }) => {
 
   const editNote = async (title, description, tag, id) => {
     const response = await fetch(
-      `https://inotebook-8iwp.onrender.com/api/notes/updatenote/${id}`,
+      `http://localhost:5000/api/notes/updatenote/${id}`,
       {
         method: "PUT",
         headers: {
@@ -92,7 +92,7 @@ const NotesState = ({ children }) => {
   const verify = async (jwt_token, email) => {
     try {
       let templateParams = {
-        message: `https://inotebook-8iwp.onrender.com/api/auth/verify/${jwt_token}`,
+        message: `http://localhost:5000/api/auth/verify/${jwt_token}`,
         recepient: email,
       };
 
@@ -116,7 +116,7 @@ const NotesState = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -129,24 +129,26 @@ const NotesState = ({ children }) => {
 
         console.log(result.e_verification);
         if (result.e_verification === false) {
-          navigate("/Verification_needed");
+          verify(result.jwt, email);
+          alert(
+            "Verification mail has been sent to your mail id. please verify it before logging in."
+          );
         } else {
           localStorage.setItem("token", result.jwt);
           navigate("/");
         }
-      }
-      else{
-        alert("Enter Correct Credentials")
+      } else {
+        alert("Enter Correct Credentials");
       }
     } catch (error) {
-      alert("Some error occurred")
+      alert("Some error occurred");
     }
   };
 
   const signup = async (name, email, password) => {
     try {
       const response = await fetch(
-        "https://inotebook-8iwp.onrender.com/api/auth/createuser",
+        "http://localhost:5000/api/auth/createuser",
         {
           method: "POST",
           headers: {
@@ -160,12 +162,11 @@ const NotesState = ({ children }) => {
         const result = await response.json();
         verify(result.jwt, email);
         navigate("/login");
-      }
-      else{
-        alert("Enter Correct Credentials")
+      } else {
+        alert("Enter Correct Credentials");
       }
     } catch (error) {
-      alert("Some error occurred")
+      alert("Some error occurred");
     }
   };
 
