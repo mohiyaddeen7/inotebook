@@ -3,11 +3,14 @@
   padding: 0;
 }
 .nav {
-  background-color: orange;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 10vh;
+  box-sizing: border-box;
+}
+
+.navBar{
   box-sizing: border-box;
 }
 
@@ -51,4 +54,25 @@ i{
 
 .NavItem:hover .NavItemSpan{
   visibility: visible !important;
+}
+
+.navSideBar{
+  display: none;
+}
+
+.hamburgerMenu{
+  display: none;
+}
+
+@media only screen and (max-width: 900px) {
+ .navLaptop{
+  display: none;
+ }
+ .navSideBar{
+  display: initial;
+ }
+ .hamburgerMenu{
+  display: initial;
+ }
+ 
 }

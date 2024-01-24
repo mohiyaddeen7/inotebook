@@ -33,17 +33,21 @@ const NotesState = ({ children }) => {
 
   const addNote = async (title, description, tag) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/notes/addnote", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({ title, description, tag }),
-      });
+      const response = await fetch(
+        "https://inotebook-8iwp.onrender.com/api/notes/addnote",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({ title, description, tag }),
+        }
+      );
 
       const note = await response.json();
       setNotes(notes.concat(note));
+      alert("Note added successfully.");
     } catch (error) {
       return error.message;
     }
@@ -65,6 +69,7 @@ const NotesState = ({ children }) => {
       if (result === "success") {
         getNotes();
         console.log("success");
+        alert("Note deleted successfully.");
       }
     } catch (error) {
       return error.message;
@@ -72,20 +77,25 @@ const NotesState = ({ children }) => {
   };
 
   const editNote = async (title, description, tag, id) => {
-    const response = await fetch(
-      `https://inotebook-8iwp.onrender.com/api/notes/updatenote/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({ title, description, tag }),
+    try {
+      const response = await fetch(
+        `https://inotebook-8iwp.onrender.com/api/notes/updatenote/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify({ title, description, tag }),
+        }
+      );
+      const result = await response.json();
+      if (result) {
+        alert("Note edited successfully.");
+        getNotes();
       }
-    );
-    const result = await response.json();
-    if (result) {
-      getNotes();
+    } catch (error) {
+      return error.message;
     }
   };
 
@@ -116,13 +126,16 @@ const NotesState = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("https://inotebook-8iwp.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://inotebook-8iwp.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (response.ok) {
         const result = await response.json();
         console.log("mohiyaddeen raza");
@@ -157,13 +170,19 @@ const NotesState = ({ children }) => {
           body: JSON.stringify({ name, email, password }),
         }
       );
+      console.log(response.status);
 
       if (response.ok) {
         const result = await response.json();
         verify(result.jwt, email);
         navigate("/login");
+        alert("Verification mail has been sent to your email address.");
+      } else if (response.status === 409) {
+        alert("A user with this email ID already exists.");
+      } else if (response.status === 500) {
+        alert("Internal Server Error.");
       } else {
-        alert("Enter Correct Credentials");
+        alert("Enter the correct details according to the format.");
       }
     } catch (error) {
       alert("Some error occurred");

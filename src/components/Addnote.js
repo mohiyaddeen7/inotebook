@@ -15,21 +15,21 @@ export default function Addnote() {
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
-  return (
-    <>
-      <div className="addNotes p-12 bg-green-500 ">
+  try {
+    return (
+      <div className="addNotes p-12 bg-green-500 w-full ">
         <div className="text-2xl p-4 font-bold">
           <h2>Add a new note</h2>
         </div>
         <form
-          className="p-4 flex flex-col items-start justify-center"
+          className="p-4 flex flex-col items-start justify-center w-full "
           onSubmit={handleSubmit}
         >
-          <div className="p-2 flex justify-center flex-col items-center">
+          <div className="p-2 flex justify-start flex-col items-center w-full">
             <label className="self-start py-2">Title</label>
             <input
               type="text"
-              className="p-2 rounded-md"
+              className="p-2 rounded-md  self-start"
               placeholder="Required title"
               id=""
               value={note.title}
@@ -38,25 +38,23 @@ export default function Addnote() {
               required
             />
           </div>
-          <div className="p-2 flex justify-center flex-col items-center">
+          <div className="p-2 flex justify-center flex-col items-center w-full">
             <label className="self-start py-2">Description</label>
             <textarea
-              className="p-2 rounded-md"
+              className="p-2 rounded-md w-full h-56"
               id="validationTextarea"
               placeholder="Required example textarea"
               value={note.description}
               onChange={onChange}
               name="description"
               required
-              rows={6}
-              cols={100}
             ></textarea>
           </div>
-          <div className="p-2 flex justify-center flex-col items-center">
+          <div className="p-2 flex justify-center flex-col items-center w-full">
             <label className="self-start py-2">Tag</label>
             <input
               type="text"
-              className=" p-2 rounded-md"
+              className=" p-2 rounded-md self-start"
               id="tag"
               value={note.tag}
               placeholder="General"
@@ -74,6 +72,8 @@ export default function Addnote() {
           </div>
         </form>
       </div>
-    </>
-  );
+    );
+  } catch (error) {
+    alert("Internal server error")
+  }
 }
