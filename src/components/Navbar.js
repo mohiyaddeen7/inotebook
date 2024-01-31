@@ -151,7 +151,7 @@ export default function Navbar(prop) {
         </div>
 
         <div className="navSideBar fixed bg-green-400 shadow-2xl shadow-green-200 h-full left-0 z-10 top-0 w-1/2 transform  transition-transform translate-y-full duration-200">
-          <h3 className="p-2 text-xl font-bold">
+          <h3 className="p-4 text-xl font-bold text-center">
             <NavLink to={"/"}>{prop.name}</NavLink>
           </h3>
           <nav className="w-full flex items-center justify-center z-10">
@@ -172,9 +172,7 @@ export default function Navbar(prop) {
                   onClick={hamburgerMenuFunc}
                 >
                   <span className="material-symbols-outlined ">home</span>
-                  <span className="invisible NavItemSpan transition-all ">
-                    Home
-                  </span>
+                  <span className="ml-4 NavItemSpan transition-all ">Home</span>
                 </NavLink>
               </li>
               <li className="p-2 flex w-full">
@@ -188,7 +186,7 @@ export default function Navbar(prop) {
                   onClick={hamburgerMenuFunc}
                 >
                   <span className="material-symbols-outlined">info</span>
-                  <span className="invisible NavItemSpan">About</span>
+                  <span className="ml-4 NavItemSpan">About</span>
                 </NavLink>
               </li>
               <li className="p-2 flex w-full">
@@ -200,7 +198,7 @@ export default function Navbar(prop) {
                   <span className="material-symbols-outlined">
                     contact_support
                   </span>
-                  <span className="invisible NavItemSpan">Contact</span>
+                  <span className="ml-4 NavItemSpan">Contact</span>
                 </NavLink>
               </li>
               {!localStorage.getItem("token") && (
@@ -216,7 +214,7 @@ export default function Navbar(prop) {
                     onClick={hamburgerMenuFunc}
                   >
                     <span className="material-symbols-outlined">login</span>
-                    <span className="invisible NavItemSpan">Login</span>
+                    <span className="ml-4 NavItemSpan">Login</span>
                   </NavLink>
                 </li>
               )}
@@ -235,7 +233,7 @@ export default function Navbar(prop) {
                     <span className="material-symbols-outlined">
                       app_registration
                     </span>
-                    <span className="invisible NavItemSpan">Signup</span>
+                    <span className="ml-4 NavItemSpan">Signup</span>
                   </NavLink>
                 </li>
               )}
@@ -247,7 +245,7 @@ export default function Navbar(prop) {
                     className="NavItem flex justify-start items-center border-2 border-transparent  hover:border-white hover:bg-white hover:text-green-500 transition-all  border-solid p-2 rounded w-full"
                   >
                     <span className="material-symbols-outlined">logout</span>
-                    <span className="invisible NavItemSpan">Logout</span>
+                    <span className="ml-4 NavItemSpan">Logout</span>
                   </button>
                 </li>
               )}
