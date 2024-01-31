@@ -72,7 +72,7 @@ i{
   display: initial;
  }
  .hamburgerMenu{
-  display: initial;
+  display: flex;
  }
  
 }

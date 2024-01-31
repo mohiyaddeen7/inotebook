@@ -15,7 +15,7 @@ function App() {
       <Router>
         <NotesState>
           <Navbar name={"inotebook"} />
-          <div className="App">
+          <div className="App w-full">
             <Routes>
               <Route
                 exact

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import notesContext from "../context_useContext/notes/notesContext";
 import React, { useContext, useState } from "react";
 
@@ -27,10 +28,13 @@ export default function Signup() {
 
   try {
     return (
-      <div>
-        <form className="container my-5 p-16" onSubmit={onSubmit}>
+      <div className="w-full">
+        <form
+          className="container my-2 p-16 md:w-1/4 w-full flex items-center flex-col"
+          onSubmit={onSubmit}
+        >
           <div className="heading mb-3 text-xl font-bold">Signup</div>
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputPassword1" className="form-label">
               Full Name
             </label>
@@ -46,7 +50,7 @@ export default function Signup() {
               required
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputEmail1" className="form-label">
               Email address
             </label>
@@ -65,7 +69,7 @@ export default function Signup() {
             </div>
           </div>
 
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputPassword1" className="form-label">
               Password
             </label>
@@ -81,7 +85,7 @@ export default function Signup() {
               required
             />
           </div>
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputCpassword" className="form-label">
               Confirm Password
             </label>
@@ -101,6 +105,12 @@ export default function Signup() {
           >
             Submit
           </button>
+          <div className="mt-4">
+            Already a user?{" "}
+            <NavLink to={"/login"} className="text-green-400 underline">
+              Login
+            </NavLink>
+          </div>
         </form>
       </div>
     );

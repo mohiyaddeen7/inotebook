@@ -26,9 +26,7 @@ export default function Navbar(prop) {
       document.querySelector(".menuOpen").classList.toggle("hidden");
       document.querySelector(".menuClose").classList.toggle("hidden");
       document.querySelector(".backgroundBlur").classList.toggle("hidden");
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -46,7 +44,7 @@ export default function Navbar(prop) {
           </h3>
           <nav className="w-50 flex justify-end h-20 z-10">
             <button
-              className="hamburgerMenu "
+              className="hamburgerMenu  justify-center items-center"
               id="hamburgerMenu"
               onClick={hamburgerMenuFunc}
             >
@@ -54,6 +52,7 @@ export default function Navbar(prop) {
               <span className="material-symbols-outlined hidden menuClose">
                 menu_open
               </span>
+              Menu
             </button>
 
             <ul className="flex justify-center items-center navLaptop">

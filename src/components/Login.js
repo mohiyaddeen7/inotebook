@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import notesContext from "../context_useContext/notes/notesContext";
 import React, { useContext, useState } from "react";
 
@@ -16,10 +17,13 @@ export default function Login() {
   };
   try {
     return (
-      <div>
-        <form className="container my-5 p-16" onSubmit={onSubmit}>
-          <div className="heading mb-3 text-xl font-bold">Login</div>
-          <div className="mb-3">
+      <div className="w-full">
+        <form
+          className="container my-5 p-16 md:w-1/4 w-full flex items-center flex-col"
+          onSubmit={onSubmit}
+        >
+          <div className="heading mb-3 text-xl font-bold ">Login</div>
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputEmail1" className="form-label">
               Email address
             </label>
@@ -36,7 +40,7 @@ export default function Login() {
               We'll never share your email with anyone else.
             </div>
           </div>
-          <div className="mb-3">
+          <div className="mb-3 w-full">
             <label htmlFor="exampleInputPassword1" className="form-label">
               Password
             </label>
@@ -55,6 +59,12 @@ export default function Login() {
           >
             Submit
           </button>
+          <div className="mt-4">
+            Don't have an account?{" "}
+            <NavLink to={"/signup"} className="text-green-400 underline">
+              SignUp
+            </NavLink>
+          </div>
         </form>
       </div>
     );
