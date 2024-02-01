@@ -10,11 +10,13 @@ import Signup from "./components/Signup";
 
 function App() {
   // const navigate = useNavigate();
+
   try {
     return (
       <Router>
         <NotesState>
           <Navbar name={"inotebook"} />
+
           <div className="App w-full">
             <Routes>
               <Route
