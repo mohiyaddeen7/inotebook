@@ -23,17 +23,21 @@ export default function Notes() {
                   </div>
                   <div className="card-footer d-flex justify-content-between align-items-center ">
                     <div className="w-1/4 flex justify-between">
-                      <i
+                      <span
+                        class="material-symbols-outlined cursor-pointer"
                         id="edit-modal"
-                        className="fa-regular fa-pen-to-square"
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
                         data-bs-noteid={note._id}
-                      ></i>
-                      <i
-                        className="fa-solid fa-trash"
+                      >
+                        edit_note
+                      </span>
+                      <span
+                        class="material-symbols-outlined cursor-pointer"
                         onClick={() => handleClick(note._id)}
-                      ></i>
+                      >
+                        delete
+                      </span>
                     </div>
                     <div className="badge text-bg-success mx-3">
                       #{note.tag}
